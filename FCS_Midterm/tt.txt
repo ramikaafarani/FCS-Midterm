@@ -1,2 +1,0 @@
-
-new_employee{"id": "emp006", "username": "21", "date": 12, "gender": "12", "salary": "1"}

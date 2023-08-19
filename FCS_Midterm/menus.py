@@ -1,7 +1,6 @@
 # https://sparkbyexamples.com/python/how-to-append-to-a-file-in-python/(how to append to file txt)
 # https://www.tutorialspoint.com/how-to-add-leading-zeros-to-a-number-in-python#:~:text=zfill()%20method,that%20will%20come%20as%20output.(Add 00 to the employee id to be matching format)
-# https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/ (convert dictionary into string)
-import json
+# https://bobbyhadz.com/blog/python-join-values-of-dictionary (join values in dictionary into a string with commas )
 
 
 def admin_menu(data):
@@ -26,11 +25,12 @@ def admin_menu(data):
         username_input = input("Please enter employ New Username")
         joining_date_input = int(input("Please enter Joining Date"))
         gender_input = input("Please enter Gender")
-        salary_input = input("Please enter Salary")
-        new_employee = {"id": new_id, "username": username_input, "date": joining_date_input, "gender": gender_input, "salary": salary_input}
-        new_employee = json.dumps(new_employee)
+        salary_input = int(input("Please enter Salary"))
+        new_employee_info = {"id": new_id, "username": username_input, "date": str(joining_date_input), "gender": gender_input, "salary": str(salary_input)}
+        new_employee = ", ".join(new_employee_info.values())
+
         with open('Employess.txt', 'a') as f:
-            f.write(new_employee)
+            f.write("\n" + new_employee)
     # elif admin_input == 3:
     # elif admin_input == 4:
     # elif admin_input == 5:
