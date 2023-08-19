@@ -1,4 +1,5 @@
 from read_text import get_names
+from menus import admin_menu
 path = "Employess.txt"
 data=get_names(path)
 count = 0
@@ -8,6 +9,7 @@ while count < 5:
     login_password=input("Please enter your Password")
     if login_username == "Admin" and login_password == "Admin123123":
         print("Admin Menu")
+        admin_menu(data)
         break
     elif login_username != "Admin" and login_password == "" and login_username == "":
         for i in data:

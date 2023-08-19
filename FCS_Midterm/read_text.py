@@ -8,7 +8,7 @@ def get_names(path):
     for employee in employees:
         employees_split = employee.split(",")
         id, username, date, gender, salary = employees_split
-        info = {"id" : id , "username" : username ,"date" : date ,"gender" : gender,"salary" : salary}
+        info = {"id": id, "username": username, "date": date, "gender": gender, "salary": salary}
         data.append(info)
     return data
 
