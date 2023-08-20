@@ -33,47 +33,55 @@ def admin_menu(data):
         new_id = str(new_numberofid).zfill(3)
         new_id = "emp" + str(new_id)
         print(" Add an Employee")
-        username_input = input("Please enter employ New Username")
-        joining_date_input = int(input("Please enter Joining Date"))
-        gender_input = input("Please enter Gender")
-        salary_input = int(input("Please enter Salary"))
+        repeat = True
+        while repeat == True:
+            username_input = input("Please enter employ New Username")
+            joining_date_input = input("Please enter Joining Date")
+            gender_input = input("Please enter Gender")
+            salary_input = input("Please enter Salary")
+            if salary_input.isdigit() and joining_date_input.isdigit() and (gender_input.lower() == 'male' or gender_input.lower() == 'female') and username_input.isalpha():
+                repeat = False
+            else:
+                print("Please make sure to follow the correct format")
         new_employee_info = {"id": new_id, "username": username_input, "date": str(joining_date_input), "gender": gender_input, "salary": str(salary_input)}
         string_new_employee = ", ".join(new_employee_info.values())
         return False
-
-        # with open('Employees.txt', 'a') as f:
-        #     f.write("\n" + new_employee)
     elif admin_input == 3:
+        print("Display all Employees")
         date_list = []
         for i in data:
             x = i['date']
             date_list.append(str.lstrip(x))
 
-        date_list.sort(key=lambda date: datetime.strptime(date, "%Y%m%d"))
+        date_list.sort(key=lambda date: datetime.strptime(date,"%Y%m%d"))
+        print(date_list)
         new_sorted_dictionary = []
         for i in date_list:
             for x in data:
                 if i == x['date'][1:]:
                     new_sorted_dictionary.append(x)
-        for employee in data:
+        for employee in new_sorted_dictionary:
             employee = ",".join(employee.values())
-            print("Display all Employees")
-            print(employee)
+            print(employee[:-1])
         return False
     elif admin_input == 4:
         print("Change Employee’s Salary")
-        input_id = input("Please input id")
-        input_salary = input("Please input the new salary")
+        repeat = True
+        while repeat == True :
+            input_id = input("Please input id")
+            input_salary = input("Please input the new salary")
+            if input_salary.isdigit():
+                repeat = False
+            else:
+                print("Please make sure to follow the correct format")
         for i in range(len(data) - 1):
             if input_id == data[i]['id']:
-                data[i]['salary'] = str(input_salary) + "\n"
+                data[i]['salary'] = " " + str(input_salary) + "\n"
                 list_new_employee = []
                 for i in range(len(data)):
                     new_employee = ",".join(str(value) for value in data[i].values())
                     list_new_employee.append(new_employee)
                 string_new_employee = "".join(str(value) for value in list_new_employee)
-                # with open('Employees.txt', 'w') as f:
-                #     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data) - 1:
@@ -99,13 +107,19 @@ def admin_menu(data):
         return False
     elif admin_input == 6:
         print("Raise Employee’s Salary")
-        input_id = input("Please input id")
-        input_percentage = input("Please input the percentage of the raise")
+        repeat = True
+        while repeat == True:
+            input_id = input("Please input id")
+            input_percentage = input("Please input the percentage of the raise")
+            if input_percentage.isdigit() :
+                repeat = False
+            else:
+                print("Please make sure to follow the correct format")
         for i in range(len(data)):
             if input_id == data[i]['id']:
                 x = data[i]['salary']
                 x = float(x) + (float(x) * (float(input_percentage) / 100))
-                data[i]['salary'] = str(x) + "\n"
+                data[i]['salary'] = " " +  str(x) + "\n"
                 list_new_employee = []
                 for i in range(len(data)):
                     new_employee = ",".join(str(value) for value in data[i].values())
@@ -122,7 +136,11 @@ def admin_menu(data):
         with open('Employees.txt', 'w') as f:
             f.write(str(string_new_employee))
         return True
+    else:
+        print("The input is not in the menu ")
 def employee_menu(data,loginusername):
+    ct = datetime.now()
+    timestamp = ct.timestamp()
     for i in data:
         if loginusername == i['username'][1:]:
             if i['gender'][1:] == 'male':
@@ -136,8 +154,8 @@ def employee_menu(data,loginusername):
             if user_input == 1:
                 print("Your salary is" +i['salary'])
             elif user_input == 2:
-                ct = datetime.now()
-                timestamp = ct.timestamp()
                 with open('Timestamps.txt', 'a') as f:
                     f.write(str(name.capitalize()) + " logged in at " + str(timestamp) +"\n")
-            break
+                return True
+            else:
+                print("The input is not in the menu ")
