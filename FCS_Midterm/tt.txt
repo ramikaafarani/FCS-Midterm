@@ -1,5 +1,5 @@
 emp001, ali, 20230908, male, 2000
 emp002, rami, 20221209, male, 1500
-emp003, aya, 20200104, female, 2200
+emp003, aya, 20200104, female,2860.0
 emp004, tala, 20210202, female, 3500
 emp005, fadi, 20200202, male, 33500
