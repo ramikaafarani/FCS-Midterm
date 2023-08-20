@@ -4,9 +4,9 @@
 # https://www.programiz.com/python-programming/datetime (sort date)
 # https://levelup.gitconnected.com/remove-whitespaces-from-strings-in-python-c5ee612ee9dc(remove spaces from the date)
 # https://www.pythontutorial.net/python-basics/python-write-text-file/ (how to write to a txt file)
+# https://bobbyhadz.com/blog/python-convert-comma-separated-string-to-dictionary#:~:text=To%20convert%20a%20dictionary%20to%20a%20comma%2Dseparated%20string%3A&text=keys%20or%20values.-,Use%20the%20str.,values%20with%20a%20comma%20separator.(convert dictionary into a string with comma's)
 from datetime import datetime
 def admin_menu(data):
-    global string_new_employee
     admin_input = int(input("Please Choose which option you want"))
 
     if admin_input == 1:
@@ -32,7 +32,7 @@ def admin_menu(data):
         new_employee_info = {"id": new_id, "username": username_input, "date": str(joining_date_input), "gender": gender_input, "salary": str(salary_input)}
         new_employee = ", ".join(new_employee_info.values())
 
-        with open('Employess.txt', 'a') as f:
+        with open('Employees.txt', 'a') as f:
             f.write("\n" + new_employee)
     elif admin_input == 3:
         date_list = []
@@ -53,8 +53,43 @@ def admin_menu(data):
     elif admin_input == 4:
         print("Change Employee’s Salary")
         input_id = input("Please input id")
-        input_percentage = input("Please input the percentage of the raise")
+        input_salary = input("Please input the new salary")
+        for i in range(len(data) - 1):
+            if input_id == data[i]['id']:
+                data[i]['salary'] = str(input_salary) + "\n"
+                list_new_employee = []
+                for i in range(len(data)):
+                    new_employee = ",".join(str(value) for value in data[i].values())
+                    list_new_employee.append(new_employee)
+                string_new_employee = "".join(str(value) for value in list_new_employee)
+                with open('Employees.txt', 'w') as f:
+                    f.write(str(string_new_employee))
+                break
+            else:
+                if i == len(data) - 1:
+                    print("Your id is wrong")
+    elif admin_input == 5:
+        print("Remove Employee")
+        input_id = input("Please enter the ID you want to remove")
+        list_new_employee = []
         for i in range(len(data)):
+            if input_id == data[i]['id']:
+                del data[i]
+                for x in range(len(data)):
+                    new_employee = ",".join(str(value) for value in data[x].values())
+                    list_new_employee.append(new_employee)
+                string_new_employee = "".join(str(value) for value in list_new_employee)
+                with open('Employees.txt', 'w') as f:
+                    f.write(str(string_new_employee))
+                break
+            else:
+                if i == len(data) - 1:
+                    print("Your id is wrong")
+    elif admin_input == 6:
+        print("Raise Employee’s Salary")
+        input_id = input("Please input id")
+        input_percentage = input("Please input the percentage of the raise")
+        for i in range(len(data)-1):
             if input_id == data[i]['id']:
                 x = data[i]['salary']
                 x = float(x) + (float(x) * (float(input_percentage) / 100))
@@ -63,15 +98,12 @@ def admin_menu(data):
                 for i in range(len(data)):
                     new_employee = ",".join(str(value) for value in data[i].values())
                     list_new_employee.append(new_employee)
-                    string_new_employee = "".join(str(value) for value in list_new_employee)
-                with open('tt.txt', 'w') as f:
+                string_new_employee = "".join(str(value) for value in list_new_employee)
+                with open('Employees.txt', 'w') as f:
                     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data)-1:
                     print("Your id is wrong")
-
-
-    # elif admin_input == 5:
-    # elif admin_input == 6:
     # elif admin_input == 7:
+

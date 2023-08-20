@@ -1,6 +1,6 @@
 from read_text import get_names
 from menus import admin_menu
-path = "Employess.txt"
+path = "Employees.txt"
 data=get_names(path)
 count = 0
 correct_username = False
