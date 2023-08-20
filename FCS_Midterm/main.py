@@ -14,18 +14,17 @@ while count < 5:
         admin_exit = False
         while admin_exit == False:
             admin_exit = admin_menu(data)
-        break
+        count = 0
+
     elif login_username != "Admin" and login_password == "" and login_username != "":
         for i in data:
             if login_username == i["username"][1:]:
                 employee_menu(data,login_username)
                 correct_username = True
+                count = 0
                 break
-        if correct_username == True:
-            break
-        else:
+        if correct_username == False:
             count += 1
-            print(count)
     else:
         count +=1
         if count == 5:

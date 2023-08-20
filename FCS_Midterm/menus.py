@@ -5,24 +5,24 @@
 # https://levelup.gitconnected.com/remove-whitespaces-from-strings-in-python-c5ee612ee9dc(remove spaces from the date)
 # https://www.pythontutorial.net/python-basics/python-write-text-file/ (how to write to a txt file)
 #https://www.geeksforgeeks.org/get-current-timestamp-using-python/(TimeStamp)
-
 # https://bobbyhadz.com/blog/python-convert-comma-separated-string-to-dictionary#:~:text=To%20convert%20a%20dictionary%20to%20a%20comma%2Dseparated%20string%3A&text=keys%20or%20values.-,Use%20the%20str.,values%20with%20a%20comma%20separator.(convert dictionary into a string with comma's)
 from datetime import datetime
-import datetime;
 def admin_menu(data):
     new_employees = []
     for i in range(len(data)):
         new_employee = ",".join(str(value) for value in data[i].values())
         new_employees.append(new_employee)
     string_new_employee = "".join(str(value) for value in new_employees)
+    print(
+        "1. Display Statistics\n" + "2. Add an Employee\n" + "3. Display all Employees\n" + "4. Change Employee’s Salary\n" + "5. Remove Employee\n" + "6. Raise Employee’s Salary\n" + "7. Exit\n")
     admin_input = int(input("Please Choose which option you want"))
     if admin_input == 1:
         male_count = 0
         female_count = 0
         for i in data:
-            if i["gender"] == "male":
+            if i["gender"][1:] == "male":
                 male_count += 1
-            elif i["gender"] == "female":
+            elif i["gender"][1:] == "female":
                 female_count += 1
         print("Display Statistics")
         print("Number of Male's are",male_count ,"and Female's", female_count)
@@ -131,11 +131,12 @@ def employee_menu(data,loginusername):
                 gender = "Ms."
             name = i['username'][1:]
             print("Hi", gender, name.capitalize())
+            print("1. Check my Salary \n" + "2. Exit\n")
             user_input = int(input("Please Choose which option you want"))
             if user_input == 1:
                 print("Your salary is" +i['salary'])
             elif user_input == 2:
-                ct = datetime.datetime.now()
+                ct = datetime.now()
                 timestamp = ct.timestamp()
                 with open('Timestamps.txt', 'a') as f:
                     f.write(str(name.capitalize()) + " logged in at " + str(timestamp) +"\n")
