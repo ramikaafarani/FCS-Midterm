@@ -4,11 +4,18 @@
 # https://www.programiz.com/python-programming/datetime (sort date)
 # https://levelup.gitconnected.com/remove-whitespaces-from-strings-in-python-c5ee612ee9dc(remove spaces from the date)
 # https://www.pythontutorial.net/python-basics/python-write-text-file/ (how to write to a txt file)
+#https://www.geeksforgeeks.org/get-current-timestamp-using-python/(TimeStamp)
+
 # https://bobbyhadz.com/blog/python-convert-comma-separated-string-to-dictionary#:~:text=To%20convert%20a%20dictionary%20to%20a%20comma%2Dseparated%20string%3A&text=keys%20or%20values.-,Use%20the%20str.,values%20with%20a%20comma%20separator.(convert dictionary into a string with comma's)
 from datetime import datetime
+import datetime;
 def admin_menu(data):
+    new_employees = []
+    for i in range(len(data)):
+        new_employee = ",".join(str(value) for value in data[i].values())
+        new_employees.append(new_employee)
+    string_new_employee = "".join(str(value) for value in new_employees)
     admin_input = int(input("Please Choose which option you want"))
-
     if admin_input == 1:
         male_count = 0
         female_count = 0
@@ -19,6 +26,7 @@ def admin_menu(data):
                 female_count += 1
         print("Display Statistics")
         print("Number of Male's are",male_count ,"and Female's", female_count)
+        return False
     elif admin_input == 2:
         last_id = data[-1]["id"][4:]
         new_numberofid = int(last_id) + 1
@@ -30,10 +38,11 @@ def admin_menu(data):
         gender_input = input("Please enter Gender")
         salary_input = int(input("Please enter Salary"))
         new_employee_info = {"id": new_id, "username": username_input, "date": str(joining_date_input), "gender": gender_input, "salary": str(salary_input)}
-        new_employee = ", ".join(new_employee_info.values())
+        string_new_employee = ", ".join(new_employee_info.values())
+        return False
 
-        with open('Employees.txt', 'a') as f:
-            f.write("\n" + new_employee)
+        # with open('Employees.txt', 'a') as f:
+        #     f.write("\n" + new_employee)
     elif admin_input == 3:
         date_list = []
         for i in data:
@@ -50,6 +59,7 @@ def admin_menu(data):
             employee = ",".join(employee.values())
             print("Display all Employees")
             print(employee)
+        return False
     elif admin_input == 4:
         print("Change Employee’s Salary")
         input_id = input("Please input id")
@@ -62,12 +72,13 @@ def admin_menu(data):
                     new_employee = ",".join(str(value) for value in data[i].values())
                     list_new_employee.append(new_employee)
                 string_new_employee = "".join(str(value) for value in list_new_employee)
-                with open('Employees.txt', 'w') as f:
-                    f.write(str(string_new_employee))
+                # with open('Employees.txt', 'w') as f:
+                #     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data) - 1:
                     print("Your id is wrong")
+        return False
     elif admin_input == 5:
         print("Remove Employee")
         input_id = input("Please enter the ID you want to remove")
@@ -79,17 +90,18 @@ def admin_menu(data):
                     new_employee = ",".join(str(value) for value in data[x].values())
                     list_new_employee.append(new_employee)
                 string_new_employee = "".join(str(value) for value in list_new_employee)
-                with open('Employees.txt', 'w') as f:
-                    f.write(str(string_new_employee))
+                # with open('Employees.txt', 'w') as f:
+                #     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data) - 1:
                     print("Your id is wrong")
+        return False
     elif admin_input == 6:
         print("Raise Employee’s Salary")
         input_id = input("Please input id")
         input_percentage = input("Please input the percentage of the raise")
-        for i in range(len(data)-1):
+        for i in range(len(data)):
             if input_id == data[i]['id']:
                 x = data[i]['salary']
                 x = float(x) + (float(x) * (float(input_percentage) / 100))
@@ -99,11 +111,32 @@ def admin_menu(data):
                     new_employee = ",".join(str(value) for value in data[i].values())
                     list_new_employee.append(new_employee)
                 string_new_employee = "".join(str(value) for value in list_new_employee)
-                with open('Employees.txt', 'w') as f:
-                    f.write(str(string_new_employee))
+                # with open('Employees.txt', 'w') as f:
+                #     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data)-1:
                     print("Your id is wrong")
-    # elif admin_input == 7:
-
+        return False
+    elif admin_input == 7:
+        with open('Employees.txt', 'w') as f:
+            f.write(str(string_new_employee))
+        return True
+def employee_menu(data,loginusername):
+    for i in data:
+        if loginusername == i['username'][1:]:
+            if i['gender'][1:] == 'male':
+                gender = "Mr."
+            else:
+                gender = "Ms."
+            name = i['username'][1:]
+            print("Hi", gender, name.capitalize())
+            user_input = int(input("Please Choose which option you want"))
+            if user_input == 1:
+                print("Your salary is" +i['salary'])
+            elif user_input == 2:
+                ct = datetime.datetime.now()
+                timestamp = ct.timestamp()
+                with open('Timestamps.txt', 'a') as f:
+                    f.write(str(name.capitalize()) + " logged in at " + str(timestamp) +"\n")
+            break
