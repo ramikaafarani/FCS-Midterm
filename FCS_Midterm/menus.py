@@ -6,13 +6,15 @@
 # https://www.pythontutorial.net/python-basics/python-write-text-file/ (how to write to a txt file)
 #https://www.geeksforgeeks.org/get-current-timestamp-using-python/(TimeStamp)
 # https://bobbyhadz.com/blog/python-convert-comma-separated-string-to-dictionary#:~:text=To%20convert%20a%20dictionary%20to%20a%20comma%2Dseparated%20string%3A&text=keys%20or%20values.-,Use%20the%20str.,values%20with%20a%20comma%20separator.(convert dictionary into a string with comma's)
+# https://www.freecodecamp.org/news/how-to-check-if-a-file-exists-in-python/#:~:text=How%20to%20Check%20if%20a%20File%20Exists%20Using%20the%20Path,the%20file%20doesn't%20exist.&text=Since%20the%20example.txt%20file,is_file()%20method%20returns%20True%20.(how to check if a file exists)
 from datetime import datetime
-def admin_menu(data):
-    new_employees = []
-    for i in range(len(data)):
-        new_employee = ",".join(str(value) for value in data[i].values())
-        new_employees.append(new_employee)
-    string_new_employee = "".join(str(value) for value in new_employees)
+import os.path
+def admin_menu(data,string_new_employee):
+    # new_employees = []
+    # for i in range(len(data)):
+    #     new_employee = ",".join(str(value) for value in data[i].values())
+    #     new_employees.append(new_employee)
+    # string_new_employee = "".join(str(value) for value in new_employees)
     print(
         "1. Display Statistics\n" + "2. Add an Employee\n" + "3. Display all Employees\n" + "4. Change Employee’s Salary\n" + "5. Remove Employee\n" + "6. Raise Employee’s Salary\n" + "7. Exit\n")
     admin_input = int(input("Please Choose which option you want"))
@@ -26,7 +28,7 @@ def admin_menu(data):
                 female_count += 1
         print("Display Statistics")
         print("Number of Male's are",male_count ,"and Female's", female_count)
-        return False
+        return False, string_new_employee
     elif admin_input == 2:
         last_id = data[-1]["id"][4:]
         new_numberofid = int(last_id) + 1
@@ -36,7 +38,7 @@ def admin_menu(data):
         repeat = True
         while repeat == True:
             username_input = input("Please enter employ New Username")
-            joining_date_input = input("Please enter Joining Date")
+            joining_date_input = datetime.now().strftime("%Y%m%d")
             gender_input = input("Please enter Gender")
             salary_input = input("Please enter Salary")
             if salary_input.isdigit() and joining_date_input.isdigit() and (gender_input.lower() == 'male' or gender_input.lower() == 'female') and username_input.isalpha():
@@ -44,8 +46,10 @@ def admin_menu(data):
             else:
                 print("Please make sure to follow the correct format")
         new_employee_info = {"id": new_id, "username": username_input, "date": str(joining_date_input), "gender": gender_input, "salary": str(salary_input)}
-        string_new_employee = ", ".join(new_employee_info.values())
-        return False
+        string_new_employee_added = ", ".join(new_employee_info.values())
+        string_new_employee = string_new_employee + '\n' + string_new_employee_added
+        print(string_new_employee)
+        return False, string_new_employee
     elif admin_input == 3:
         print("Display all Employees")
         date_list = []
@@ -53,8 +57,8 @@ def admin_menu(data):
             x = i['date']
             date_list.append(str.lstrip(x))
 
-        date_list.sort(key=lambda date: datetime.strptime(date,"%Y%m%d"))
-        print(date_list)
+        date_list.sort(reverse=True, key=lambda date: datetime.strptime(date,"%Y%m%d"))
+        # print(date_list)
         new_sorted_dictionary = []
         for i in date_list:
             for x in data:
@@ -63,19 +67,19 @@ def admin_menu(data):
         for employee in new_sorted_dictionary:
             employee = ",".join(employee.values())
             print(employee[:-1])
-        return False
+        return False, string_new_employee
     elif admin_input == 4:
         print("Change Employee’s Salary")
+        input_id = input("Please input id")
         repeat = True
-        while repeat == True :
-            input_id = input("Please input id")
-            input_salary = input("Please input the new salary")
-            if input_salary.isdigit():
-                repeat = False
-            else:
-                print("Please make sure to follow the correct format")
-        for i in range(len(data) - 1):
+        for i in range(len(data)):
             if input_id == data[i]['id']:
+                while repeat == True:
+                    input_salary = input("Please input the new salary")
+                    if input_salary.isdigit():
+                        repeat = False
+                    else:
+                        print("Please make sure to follow the correct format")
                 data[i]['salary'] = " " + str(input_salary) + "\n"
                 list_new_employee = []
                 for i in range(len(data)):
@@ -86,7 +90,7 @@ def admin_menu(data):
             else:
                 if i == len(data) - 1:
                     print("Your id is wrong")
-        return False
+        return False, string_new_employee
     elif admin_input == 5:
         print("Remove Employee")
         input_id = input("Please enter the ID you want to remove")
@@ -98,13 +102,11 @@ def admin_menu(data):
                     new_employee = ",".join(str(value) for value in data[x].values())
                     list_new_employee.append(new_employee)
                 string_new_employee = "".join(str(value) for value in list_new_employee)
-                # with open('Employees.txt', 'w') as f:
-                #     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data) - 1:
                     print("Your id is wrong")
-        return False
+        return False, string_new_employee
     elif admin_input == 6:
         print("Raise Employee’s Salary")
         repeat = True
@@ -125,22 +127,19 @@ def admin_menu(data):
                     new_employee = ",".join(str(value) for value in data[i].values())
                     list_new_employee.append(new_employee)
                 string_new_employee = "".join(str(value) for value in list_new_employee)
-                # with open('Employees.txt', 'w') as f:
-                #     f.write(str(string_new_employee))
                 break
             else:
                 if i == len(data)-1:
                     print("Your id is wrong")
-        return False
+        return False, string_new_employee
     elif admin_input == 7:
         with open('Employees.txt', 'w') as f:
             f.write(str(string_new_employee))
-        return True
+        return True, string_new_employee
     else:
         print("The input is not in the menu ")
 def employee_menu(data,loginusername):
     ct = datetime.now()
-    timestamp = ct.timestamp()
     for i in data:
         if loginusername == i['username'][1:]:
             if i['gender'][1:] == 'male':
@@ -154,8 +153,16 @@ def employee_menu(data,loginusername):
             if user_input == 1:
                 print("Your salary is" +i['salary'])
             elif user_input == 2:
-                with open('Timestamps.txt', 'a') as f:
-                    f.write(str(name.capitalize()) + " logged in at " + str(timestamp) +"\n")
+                user_input_path = loginusername + ".txt"
+                if  os.path.exists(user_input_path) == True :
+                    with open(user_input_path, 'a') as f:
+                        f.write(str(name.capitalize()) + " logged in at " + str(ct) +"\n")
+                        f.close()
+                else:
+                    with open(user_input_path, 'w') as f:
+                        f.write(str(name.capitalize()) + " logged in at " + str(ct) + "\n")
+                        f.close()
+
                 return True
             else:
                 print("The input is not in the menu ")

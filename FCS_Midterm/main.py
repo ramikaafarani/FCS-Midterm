@@ -10,10 +10,15 @@ while count < 5:
     login_username=input("Please enter your Username")
     login_password=input("Please enter your Password")
     if login_username == "Admin" and login_password == "Admin123123":
+        new_employees = []
+        for i in range(len(data)):
+            new_employee = ",".join(str(value) for value in data[i].values())
+            new_employees.append(new_employee)
+        string_new_employee = "".join(str(value) for value in new_employees)
         print("Admin Menu")
         admin_exit = False
         while admin_exit == False:
-            admin_exit = admin_menu(data)
+            admin_exit, string_new_employee = admin_menu(data,string_new_employee)
         count = 0
 
     elif login_username != "Admin" and login_password == "" and login_username != "":
