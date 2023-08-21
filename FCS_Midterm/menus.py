@@ -8,6 +8,8 @@
 # https://bobbyhadz.com/blog/python-convert-comma-separated-string-to-dictionary#:~:text=To%20convert%20a%20dictionary%20to%20a%20comma%2Dseparated%20string%3A&text=keys%20or%20values.-,Use%20the%20str.,values%20with%20a%20comma%20separator.(convert dictionary into a string with comma's)
 # https://www.tutorialspoint.com/How-to-get-formatted-date-and-time-in-Python#:~:text=To%20convert%20a%20datetime%20object,hh%3Amm%3Ass%20format(%y%m%d)
 # https://www.freecodecamp.org/news/how-to-check-if-a-file-exists-in-python/#:~:text=How%20to%20Check%20if%20a%20File%20Exists%20Using%20the%20Path,the%20file%20doesn't%20exist.&text=Since%20the%20example.txt%20file,is_file()%20method%20returns%20True%20.(how to check if a file exists)
+# https://stackoverflow.com/questions/23329234/which-is-better-on-log-n-or-n2(Onotation)
+#https://stackabuse.com/big-o-notation-and-algorithm-analysis-with-python-examples/(Onotation)
 from datetime import datetime
 import os.path
 def admin_menu(data,string_new_employee):
