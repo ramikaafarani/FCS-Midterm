@@ -6,17 +6,12 @@
 # https://www.pythontutorial.net/python-basics/python-write-text-file/ (how to write to a txt file)
 #https://www.geeksforgeeks.org/get-current-timestamp-using-python/(TimeStamp)
 # https://bobbyhadz.com/blog/python-convert-comma-separated-string-to-dictionary#:~:text=To%20convert%20a%20dictionary%20to%20a%20comma%2Dseparated%20string%3A&text=keys%20or%20values.-,Use%20the%20str.,values%20with%20a%20comma%20separator.(convert dictionary into a string with comma's)
+# https://www.tutorialspoint.com/How-to-get-formatted-date-and-time-in-Python#:~:text=To%20convert%20a%20datetime%20object,hh%3Amm%3Ass%20format(%y%m%d)
 # https://www.freecodecamp.org/news/how-to-check-if-a-file-exists-in-python/#:~:text=How%20to%20Check%20if%20a%20File%20Exists%20Using%20the%20Path,the%20file%20doesn't%20exist.&text=Since%20the%20example.txt%20file,is_file()%20method%20returns%20True%20.(how to check if a file exists)
 from datetime import datetime
 import os.path
 def admin_menu(data,string_new_employee):
-    # new_employees = []
-    # for i in range(len(data)):
-    #     new_employee = ",".join(str(value) for value in data[i].values())
-    #     new_employees.append(new_employee)
-    # string_new_employee = "".join(str(value) for value in new_employees)
-    print(
-        "1. Display Statistics\n" + "2. Add an Employee\n" + "3. Display all Employees\n" + "4. Change Employee’s Salary\n" + "5. Remove Employee\n" + "6. Raise Employee’s Salary\n" + "7. Exit\n")
+    print("1. Display Statistics\n" + "2. Add an Employee\n" + "3. Display all Employees\n" + "4. Change Employee’s Salary\n" + "5. Remove Employee\n" + "6. Raise Employee’s Salary\n" + "7. Exit\n")
     admin_input = int(input("Please Choose which option you want"))
     if admin_input == 1:
         male_count = 0
@@ -153,16 +148,18 @@ def employee_menu(data,loginusername):
             if user_input == 1:
                 print("Your salary is" +i['salary'])
             elif user_input == 2:
-                user_input_path = loginusername + ".txt"
-                if  os.path.exists(user_input_path) == True :
-                    with open(user_input_path, 'a') as f:
-                        f.write(str(name.capitalize()) + " logged in at " + str(ct) +"\n")
-                        f.close()
-                else:
-                    with open(user_input_path, 'w') as f:
-                        f.write(str(name.capitalize()) + " logged in at " + str(ct) + "\n")
-                        f.close()
-
+                for i in data:
+                    if loginusername == i['username'][1:]:
+                        id_user = i['id']
+                        user_input_path = id_user + ".txt"
+                        if  os.path.exists(user_input_path) == True :
+                            with open(user_input_path, 'a') as f:
+                                f.write(str(name.capitalize()) + " logged in at " + str(ct) +"\n")
+                                f.close()
+                        else:
+                            with open(user_input_path, 'w') as f:
+                                f.write(str(name.capitalize()) + " logged in at " + str(ct) + "\n")
+                                f.close()
                 return True
             else:
                 print("The input is not in the menu ")
