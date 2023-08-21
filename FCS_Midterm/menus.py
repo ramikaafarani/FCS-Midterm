@@ -12,8 +12,8 @@ from datetime import datetime
 import os.path
 def admin_menu(data,string_new_employee):
     print("1. Display Statistics\n" + "2. Add an Employee\n" + "3. Display all Employees\n" + "4. Change Employee’s Salary\n" + "5. Remove Employee\n" + "6. Raise Employee’s Salary\n" + "7. Exit\n")
-    admin_input = int(input("Please Choose which option you want"))
-    if admin_input == 1:
+    admin_input = int(input("Please Choose which option you want")) #O(1)
+    if admin_input == 1: #O(n)
         male_count = 0
         female_count = 0
         for i in data:
@@ -24,7 +24,7 @@ def admin_menu(data,string_new_employee):
         print("Display Statistics")
         print("Number of Male's are",male_count ,"and Female's", female_count)
         return False, string_new_employee
-    elif admin_input == 2:
+    elif admin_input == 2:#O(1)
         last_id = data[-1]["id"][4:]
         new_numberofid = int(last_id) + 1
         new_id = str(new_numberofid).zfill(3)
@@ -45,7 +45,7 @@ def admin_menu(data,string_new_employee):
         string_new_employee = string_new_employee + '\n' + string_new_employee_added
         print(string_new_employee)
         return False, string_new_employee
-    elif admin_input == 3:
+    elif admin_input == 3:#O(n x log(n))
         print("Display all Employees")
         date_list = []
         for i in data:
@@ -63,7 +63,7 @@ def admin_menu(data,string_new_employee):
             employee = ",".join(employee.values())
             print(employee[:-1])
         return False, string_new_employee
-    elif admin_input == 4:
+    elif admin_input == 4:#O(n)
         print("Change Employee’s Salary")
         input_id = input("Please input id")
         repeat = True
@@ -86,7 +86,7 @@ def admin_menu(data,string_new_employee):
                 if i == len(data) - 1:
                     print("Your id is wrong")
         return False, string_new_employee
-    elif admin_input == 5:
+    elif admin_input == 5: #O(n ^2)
         print("Remove Employee")
         input_id = input("Please enter the ID you want to remove")
         list_new_employee = []
@@ -102,7 +102,7 @@ def admin_menu(data,string_new_employee):
                 if i == len(data) - 1:
                     print("Your id is wrong")
         return False, string_new_employee
-    elif admin_input == 6:
+    elif admin_input == 6: #O(n)
         print("Raise Employee’s Salary")
         repeat = True
         while repeat == True:
